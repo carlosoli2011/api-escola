@@ -1,8 +1,7 @@
 ## API Estudo VR
 
 # Introdução
-
-# API de Controle de cursos
+API de Controle de cursos
 
 # Requerimentos Java 1.8 Postgres 9 Maven 3.X
 Clone este repositório git clone https://github.com/carlosoli2011/api-escola.git
