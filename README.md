@@ -10,16 +10,22 @@ Clone este repositório git clone https://github.com/carlosoli2011/api-escola.gi
 Será criado ao subir a aplicação appescola na porta 5432 do postgres instalado em seu pc
 
 # Para modificar as configurações de acesso ao banco de dados na aplicação
+```sh
 abra: /src/main/resources/application.properties
 altere as propriedades: url, username e password de acordo com seus dados do postgres. 
 Caso precise alterar a porta padão 8080 da aplicação modifique a propriedade server.port=8080 para a porta desejada
+```
 
 # Para rodar a aplicação:
+```sh
 mvn package
 java -jar target/api-0.0.1-SNAPSHOT.jar
+```
 
 Você também pode rodar sua aplicação utilizando 
+```sh
 mvn spring-boot:run
+```
 
 A Aplicação estará rodando em http://localhost:8080 ou na que você alterou.
 
