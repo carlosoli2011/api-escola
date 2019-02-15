@@ -10,6 +10,6 @@ import br.com.estudoapi.api.entity.Curso;
 public interface CursoRepository extends JpaRepository<Curso, Long>{
 	
 	@Query("SELECT c FROM Curso c")
-	public int consultaDisciplina(Curso curso);
+	public int consultaCapacidadeMaximaAlunos(Curso curso);
 
 }

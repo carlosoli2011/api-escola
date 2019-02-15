@@ -1,9 +1,9 @@
 package br.com.estudoapi.api.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
@@ -11,11 +11,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import br.com.estudoapi.api.util.TipoDiaSemana;
 import lombok.Data;
@@ -27,7 +26,7 @@ public class Disciplina implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long codigo;
 
 	private String descricao;
 	private String ementa;
@@ -37,13 +36,14 @@ public class Disciplina implements Serializable{
 	@Enumerated
 	private TipoDiaSemana diaDaSemana;
 	
-	@JoinColumn(name = "id_professor")
-	@ManyToOne(fetch=FetchType.EAGER, targetEntity=Professor.class)
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_professor", nullable = false, updatable = false, insertable = true)
+    @JsonBackReference(value="professor")
 	private Professor professor;
-
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany
-    @JoinColumn(name="id_disciplina")
-	private transient List<CursoDisciplina> cursoDisciplinas = new ArrayList<>();
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_curso", nullable = false, updatable = false, insertable = true)
+    @JsonBackReference(value="curso")
+	private Curso curso;
 
 }

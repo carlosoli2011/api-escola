@@ -7,7 +7,6 @@ import br.com.estudoapi.api.entity.Disciplina;
 
 public interface DisciplinaRepository extends JpaRepository<Disciplina, Long>{
 	
-	@Query("SELECT d FROM Disciplina d")
-	public int consultaDisciplina(Disciplina disciplina);
-
+	@Query("SELECT d FROM Disciplina d WHERE d.diaDaSemana = ?1")
+	public int consultaDiaSemanaDisciplina(int disciplina);
 }

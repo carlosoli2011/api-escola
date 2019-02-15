@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.estudoapi.api.entity.Matricula;
 import br.com.estudoapi.api.repository.MatriculaRepository;
-
+import br.com.estudoapi.api.util.MensagemErro;
+import br.com.estudoapi.api.util.ResourceException;
 
 @RequestMapping("/matricula")
 @RestController
@@ -22,19 +23,28 @@ public class MatriculaController {
 	private MatriculaRepository repository;
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Matricula> listAllMatriculas() {
-        return repository.findAll();
-    }
-	
+	public Iterable<Matricula> listAllMatriculas() {
+		try {
+			return repository.findAll();
+		} catch (Exception e) {
+			throw new ResourceException(HttpStatus.BAD_REQUEST,
+					MensagemErro.ERRO_AO_LISTAR_MATRICULAS + e.getMessage());
+		}
+	}
+
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Matricula> save(@RequestBody Matricula matricula) {
-		int limiteVagas = repository.consultaLimiteVagas(matricula);
-		
-		if(limiteVagas > -1) {
-			new ResponseEntity<Matricula>(matricula, HttpStatus.BAD_REQUEST);
+		try {
+			// int limiteVagas = repository.consultaLimiteVagas(matricula);
+			//
+			// if (limiteVagas > -1) {
+			// new ResponseEntity<Matricula>(matricula, HttpStatus.BAD_REQUEST);
+			// }
+			return new ResponseEntity<Matricula>(repository.save(matricula), HttpStatus.CREATED);
+		} catch (Exception e) {
+			throw new ResourceException(HttpStatus.BAD_REQUEST,
+					MensagemErro.ERRO_AO_CADASTRAR_MATRICULA + e.getMessage());
 		}
-		
-		return new ResponseEntity<Matricula>(repository.save(matricula), HttpStatus.CREATED);
 	}
 
 }
